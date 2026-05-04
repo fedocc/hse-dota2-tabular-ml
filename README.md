@@ -111,7 +111,11 @@ Gini = 2 * ROC-AUC - 1
 
 ## Данные
 
-Сырые данные не лежат в репозитории. Ожидаемая локальная структура:
+Сырые данные не лежат в репозитории. Датасет брался из Kaggle competition:
+
+https://www.kaggle.com/competitions/dota-2-hse-ml-1-course-competition-2026
+
+Ожидаемая локальная структура:
 
 ```text
 data/raw/dota-2-hse-ml-1-course-competition-2026/

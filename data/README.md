@@ -2,6 +2,10 @@
 
 Сырые данные соревнования не хранятся в репозитории.
 
+Источник данных:
+
+https://www.kaggle.com/competitions/dota-2-hse-ml-1-course-competition-2026
+
 Ожидаемая локальная структура:
 
 ```text
@@ -15,4 +19,3 @@ data/raw/dota-2-hse-ml-1-course-competition-2026/
 ```
 
 Текущий baseline использует `matches_df_train.csv`, `matches_df_test.csv` и `player_df.csv`.
-
