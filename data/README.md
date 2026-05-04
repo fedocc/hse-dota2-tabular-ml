@@ -1,8 +1,8 @@
-# Data
+# Данные
 
-Raw competition data is not stored in this repository.
+Сырые данные соревнования не хранятся в репозитории.
 
-Expected local structure:
+Ожидаемая локальная структура:
 
 ```text
 data/raw/dota-2-hse-ml-1-course-competition-2026/
@@ -14,5 +14,5 @@ data/raw/dota-2-hse-ml-1-course-competition-2026/
   Constants.Heroes.csv
 ```
 
-The current baseline uses `matches_df_train.csv`, `matches_df_test.csv` and `player_df.csv`.
+Текущий baseline использует `matches_df_train.csv`, `matches_df_test.csv` и `player_df.csv`.
 

@@ -1,22 +1,22 @@
-# Experiment Summary
+# Сводка экспериментов
 
-This file preserves the main experimental conclusions from the original notebooks
-without committing raw data, generated submissions or large notebook outputs.
+Этот файл сохраняет основные выводы из исходных ноутбуков без коммита сырых данных,
+сгенерированных submissions и тяжёлых notebook outputs.
 
-## Data Snapshot
+## Данные
 
-| Object | Shape / Size |
+| Объект | Размер |
 |---|---:|
-| Train matches | 641,090 rows |
-| Test matches | 59,748 rows |
-| Raw player records | 7,617,237 rows |
-| Cleaned player records | 6,946,980 rows |
+| Train matches | 641,090 строк |
+| Test matches | 59,748 строк |
+| Raw player records | 7,617,237 строк |
+| Cleaned player records | 6,946,980 строк |
 
-The test split corresponds to December 2024, so validation should be interpreted as an out-of-time problem rather than a fully random i.i.d. split.
+Test соответствует декабрю 2024 года, поэтому задачу корректнее воспринимать как out-of-time validation, а не как обычный случайный i.i.d. split.
 
-## Baseline Feature Groups
+## Baseline feature groups
 
-| Feature group | CV Gini, mean |
+| Группа признаков | Средний CV Gini |
 |---|---:|
 | Date features | 0.002 |
 | Region target encoding | 0.075 |
@@ -24,47 +24,47 @@ The test split corresponds to December 2024, so validation should be interpreted
 | Sparse hero draft only | 0.274 |
 | Region + MMR + sparse hero draft | 0.308 |
 
-Key observation: date features were almost useless in isolation, while hero draft features gave the largest jump among the baseline feature groups.
+Главное наблюдение: признаки даты почти ничего не дают сами по себе, а самый сильный скачок качества среди baseline-групп дают признаки драфта героев.
 
-## Player Cleaning
+## Очистка player table
 
-The original player table contained invalid and noisy records. The cleaning pipeline:
+В исходной таблице игроков были некорректные и шумные записи. Очистка:
 
-- removed records outside train/test matches;
-- removed invalid `hero_id = 0` matches;
-- kept only valid Radiant/Dire player slots;
-- removed suspicious duplicated player-side pairs;
-- kept strict 5v5 matches after cleaning.
+- удаляет записи вне train/test матчей;
+- удаляет матчи с некорректным `hero_id = 0`;
+- оставляет только валидные слоты Radiant/Dire;
+- удаляет подозрительные дубли игрок-сторона;
+- сохраняет только строгие 5v5 матчи после очистки.
 
-This reduced the player table from `7,617,237` to `6,946,980` rows and made sparse hero encoding reliable.
+После этого размер player table уменьшился с `7,617,237` до `6,946,980` строк, а sparse-кодирование героев стало надёжнее.
 
-## Advanced Experiments
+## Advanced experiments
 
-Additional notebook experiments explored:
+В дополнительных экспериментах проверялись:
 
-- team chat preprocessing and TF-IDF features;
-- gold/experience advantage time-series aggregations;
-- scaling for more stable logistic regression optimization;
-- richer feature matrices with thousands of sparse columns.
+- preprocessing командного чата и TF-IDF features;
+- агрегации временных рядов gold/experience advantage;
+- scaling для более стабильной оптимизации логистической регрессии;
+- более широкие sparse-матрицы с тысячами признаков.
 
-Recorded advanced matrix size:
+Размер расширенной матрицы:
 
-| Matrix | Shape |
+| Матрица | Shape |
 |---|---:|
 | Advanced train matrix | 641,090 x 7,795 |
 | Advanced test matrix | 59,748 x 7,795 |
 
-## Final Packaged Baseline
+## Финальная упакованная версия
 
-The public repository keeps a compact reproducible baseline:
+В публичном репозитории оставлен компактный воспроизводимый baseline:
 
 - region target encoding;
-- MMR missing indicator and square-root MMR;
-- sparse hero draft encoding;
-- logistic regression;
-- Optuna-selected model parameters.
+- индикатор пропуска MMR и `sqrt(MMR)`;
+- sparse-кодирование драфта героев;
+- логистическая регрессия;
+- параметры модели, выбранные через Optuna.
 
-Best saved Optuna result for the packaged baseline:
+Лучший сохранённый Optuna result для packaged baseline:
 
 ```json
 {
@@ -78,11 +78,11 @@ Best saved Optuna result for the packaged baseline:
 }
 ```
 
-## Main Conclusions
+## Основные выводы
 
-1. The strongest simple signal comes from the hero draft, especially when encoded as a signed sparse vector.
-2. Region is useful but must be encoded carefully to avoid target leakage.
-3. MMR contributes a stable but moderate signal; missingness itself is informative.
-4. Chat and advantage features are promising, but they make the pipeline heavier and require more careful preprocessing.
-5. A compact linear sparse model is a good baseline because most useful signals are high-dimensional and sparse.
+1. Самый сильный простой сигнал даёт драфт героев, особенно в виде signed sparse vector.
+2. Регион полезен, но target encoding нужно делать аккуратно, чтобы не получить leakage.
+3. MMR даёт стабильный, но умеренный сигнал; сам факт пропуска MMR тоже информативен.
+4. Chat и advantage features перспективны, но сильно утяжеляют pipeline и требуют более аккуратного preprocessing.
+5. Компактная линейная модель на sparse-признаках является хорошим baseline, потому что многие полезные сигналы в задаче высокоразмерные и разреженные.
 

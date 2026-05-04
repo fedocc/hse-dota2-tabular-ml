@@ -1,55 +1,55 @@
 # HSE Dota 2 Tabular ML
 
-Cleaned project version of my HSE ML homework on Dota 2 match outcome prediction.
+Аккуратно оформленная версия моей домашней работы по курсу машинного обучения в НИУ ВШЭ: предсказание исхода матча Dota 2.
 
-The goal is to predict whether the Radiant side wins a match. I kept the repository focused on one reproducible baseline: careful player-table cleaning, sparse hero draft features, region/MMR preprocessing and logistic regression.
+Задача — предсказать, победит ли сторона Radiant. Я оставил репозиторий сфокусированным на воспроизводимом baseline: очистка таблицы игроков, sparse-кодирование драфта героев, признаки по региону/MMR и логистическая регрессия.
 
-## Project Focus
+## Что внутри
 
-This repo is not a full competition solution dump. It is a compact, readable version of the work:
+Это не полный dump соревнования и не папка с сырыми ноутбуками. Репозиторий приведён к читаемому проектному виду:
 
-- reusable code is moved from notebooks to `src/dota_ml`;
-- raw competition data is excluded;
-- generated submissions are excluded;
-- notebooks are kept only as experiment traces;
-- the main pipeline can be launched from `scripts/train.py`.
+- переиспользуемый код вынесен из ноутбуков в `src/dota_ml`;
+- сырые данные не коммитятся;
+- сгенерированные submissions не коммитятся;
+- ноутбуки оставлены как след экспериментов;
+- основной pipeline запускается через `scripts/train.py`.
 
-## Approach
+## Подход
 
-### 1. Player data cleaning
+### 1. Очистка player data
 
-The raw `player_df` table is filtered before building hero features:
+Перед построением признаков по героям таблица `player_df` фильтруется:
 
-- keep only matches from train/test;
-- remove missing match, account, hero and slot values;
-- remove invalid `hero_id = 0` matches;
-- keep valid Radiant/Dire player slots;
-- remove suspicious duplicated player-side pairs;
-- keep only strict 5v5 matches.
+- оставляются только матчи из train/test;
+- удаляются строки с пропусками в `match_id`, `account_id`, `hero_id`, `player_slot`;
+- удаляются матчи с некорректным `hero_id = 0`;
+- остаются только валидные слоты Radiant/Dire;
+- удаляются подозрительные дубли игрок-сторона;
+- после очистки остаются только строгие 5v5 матчи.
 
-### 2. Match-level features
+### 2. Match-level признаки
 
-The baseline uses a small set of robust match features:
+В baseline используются простые и устойчивые признаки матча:
 
-- region target encoding;
-- MMR missing indicator;
-- square-root transformed average MMR.
+- target encoding региона;
+- индикатор пропуска MMR;
+- `sqrt`-преобразование среднего MMR.
 
-### 3. Hero draft encoding
+### 3. Sparse-кодирование драфта
 
-Heroes are encoded as a sparse matrix:
+Герои кодируются sparse-матрицей:
 
-- `+1` if a hero is picked by Radiant;
-- `-1` if a hero is picked by Dire;
-- `0` otherwise.
+- `+1`, если герой выбран Radiant;
+- `-1`, если герой выбран Dire;
+- `0`, если герой не участвовал в матче.
 
-This representation lets a linear model use draft information without expanding the data into dense categorical columns.
+Так линейная модель видит составы команд без превращения данных в огромную dense-таблицу.
 
-### 4. Model
+### 4. Модель
 
-The final baseline is logistic regression over sparse features.
+Финальная baseline-модель — логистическая регрессия на sparse-признаках.
 
-Best Optuna configuration saved from experiments:
+Лучшая сохранённая Optuna-конфигурация:
 
 ```json
 {
@@ -60,24 +60,24 @@ Best Optuna configuration saved from experiments:
 }
 ```
 
-Main reproduced and recorded results from the homework experiments:
+Основные результаты из экспериментов:
 
-| Feature group / setup | CV Gini |
+| Группа признаков / setup | CV Gini |
 |---|---:|
 | Date features | 0.002 |
 | Region target encoding | 0.075 |
 | Region + MMR | 0.148 |
 | Sparse hero draft only | 0.274 |
 | Region + MMR + sparse hero draft | 0.308 |
-| Packaged baseline, Optuna best saved run | 0.4089 |
+| Packaged baseline, лучший сохранённый Optuna run | 0.4089 |
 
-The competition metric is:
+Метрика соревнования:
 
 ```text
 Gini = 2 * ROC-AUC - 1
 ```
 
-## Structure
+## Структура
 
 ```text
 .
@@ -102,9 +102,9 @@ Gini = 2 * ROC-AUC - 1
         └── pipeline.py
 ```
 
-## Data
+## Данные
 
-Raw data is not committed. Put the competition files here:
+Сырые данные не лежат в репозитории. Ожидаемая локальная структура:
 
 ```text
 data/raw/dota-2-hse-ml-1-course-competition-2026/
@@ -116,9 +116,9 @@ data/raw/dota-2-hse-ml-1-course-competition-2026/
   Constants.Heroes.csv
 ```
 
-The current script uses `matches_df_train.csv`, `matches_df_test.csv` and `player_df.csv`.
+Текущий скрипт использует `matches_df_train.csv`, `matches_df_test.csv` и `player_df.csv`.
 
-## Run
+## Запуск
 
 ```bash
 python -m venv .venv
@@ -128,14 +128,15 @@ pip install -r requirements.txt
 PYTHONPATH=src python scripts/train.py --config configs/default.yaml
 ```
 
-The output submission is written to:
+Submission сохраняется в:
 
 ```text
 results/submissions/submission_base_all_features.csv
 ```
 
-## Notes
+## Заметки
 
-This repository is intentionally small. The heavier experimental artifacts, raw CSV files, generated submissions and local cache files stay outside Git.
+Репозиторий намеренно маленький. Тяжёлые артефакты экспериментов, сырые CSV, submissions и локальные кэши остаются вне Git.
 
-The original notebook outputs were stripped to keep the repository readable. The key conclusions are preserved in [`docs/experiment_summary.md`](docs/experiment_summary.md).
+Outputs в ноутбуках очищены, чтобы репозиторий было удобно читать. Основные выводы сохранены в [`docs/experiment_summary.md`](docs/experiment_summary.md).
+

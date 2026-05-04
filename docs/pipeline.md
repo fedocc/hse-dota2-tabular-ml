@@ -1,40 +1,40 @@
 # Pipeline
 
-The repository contains a compact version of the HSE ML homework pipeline for
-Dota 2 match outcome prediction.
+В репозитории лежит компактная версия HSE ML homework pipeline для задачи
+предсказания исхода матча Dota 2.
 
-## Current baseline
+## Текущий baseline
 
-The current reproducible baseline uses:
+Воспроизводимый baseline использует:
 
 - match metadata: `region`, `avg_mmr`;
-- fold-safe target encoding for region;
-- missing-value indicator for MMR;
-- square-root transformed MMR;
-- sparse hero draft encoding:
-  - `+1` for Radiant heroes;
-  - `-1` for Dire heroes;
-  - `0` otherwise;
-- logistic regression over the resulting sparse matrix.
+- target encoding региона;
+- индикатор пропущенного MMR;
+- `sqrt`-преобразование MMR;
+- sparse-кодирование драфта героев:
+  - `+1` для героев Radiant;
+  - `-1` для героев Dire;
+  - `0`, если герой не участвовал в матче;
+- логистическую регрессию на итоговой sparse-матрице.
 
-## Data cleaning
+## Очистка данных
 
-The `player_df` cleaning step:
+Шаг очистки `player_df`:
 
-- keeps only train/test matches;
-- removes missing `match_id`, `account_id`, `hero_id`, `player_slot`;
-- removes matches with `hero_id = 0`;
-- keeps valid 5v5 Radiant/Dire slots;
-- filters suspicious duplicated player-side pairs;
-- keeps strict 5v5 matches after cleaning.
+- оставляет только train/test матчи;
+- удаляет пропуски в `match_id`, `account_id`, `hero_id`, `player_slot`;
+- удаляет матчи с `hero_id = 0`;
+- оставляет валидные Radiant/Dire слоты;
+- фильтрует подозрительные duplicated player-side pairs;
+- сохраняет только strict 5v5 матчи.
 
-## Metric
+## Метрика
 
-The competition metric is Gini:
+Метрика соревнования — Gini:
 
 ```text
 Gini = 2 * ROC-AUC - 1
 ```
 
-Best local Optuna CV Gini recorded in this repo: `0.4089`.
+Лучший локальный Optuna CV Gini, зафиксированный в этом репозитории: `0.4089`.
 
