@@ -60,11 +60,16 @@ Best Optuna configuration saved from experiments:
 }
 ```
 
-Recorded best CV result:
+Main reproduced and recorded results from the homework experiments:
 
-| Setup | CV Gini |
+| Feature group / setup | CV Gini |
 |---|---:|
-| Region + MMR + sparse hero draft | 0.4089 |
+| Date features | 0.002 |
+| Region target encoding | 0.075 |
+| Region + MMR | 0.148 |
+| Sparse hero draft only | 0.274 |
+| Region + MMR + sparse hero draft | 0.308 |
+| Packaged baseline, Optuna best saved run | 0.4089 |
 
 The competition metric is:
 
@@ -81,7 +86,8 @@ Gini = 2 * ROC-AUC - 1
 ├── data/
 │   └── README.md
 ├── docs/
-│   └── pipeline.md
+│   ├── pipeline.md
+│   └── experiment_summary.md
 ├── notebooks/
 │   ├── 01_baseline_pipeline.ipynb
 │   └── 02_advanced_features.ipynb
@@ -132,3 +138,4 @@ results/submissions/submission_base_all_features.csv
 
 This repository is intentionally small. The heavier experimental artifacts, raw CSV files, generated submissions and local cache files stay outside Git.
 
+The original notebook outputs were stripped to keep the repository readable. The key conclusions are preserved in [`docs/experiment_summary.md`](docs/experiment_summary.md).
