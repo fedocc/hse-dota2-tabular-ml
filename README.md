@@ -149,4 +149,4 @@ results/submissions/submission_base_all_features.csv
 
 Репозиторий намеренно маленький. Тяжёлые артефакты экспериментов, сырые CSV, submissions и локальные кэши остаются вне Git.
 
-Outputs в ноутбуках очищены, чтобы репозиторий было удобно читать. Основные выводы сохранены в [`docs/experiment_summary.md`](docs/experiment_summary.md).
+Дополнительная сводка по экспериментам доступна в [`docs/experiment_summary.md`](docs/experiment_summary.md).
