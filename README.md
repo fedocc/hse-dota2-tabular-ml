@@ -71,6 +71,13 @@
 | Region + MMR + sparse hero draft | 0.308 |
 | Packaged baseline, лучший сохранённый Optuna run | 0.4089 |
 
+Результат на Kaggle leaderboard:
+
+| Метрика | Значение |
+|---|---:|
+| Kaggle score | 0.38787 |
+| Место | 42 / 444 |
+
 Метрика соревнования:
 
 ```text
@@ -139,4 +146,3 @@ results/submissions/submission_base_all_features.csv
 Репозиторий намеренно маленький. Тяжёлые артефакты экспериментов, сырые CSV, submissions и локальные кэши остаются вне Git.
 
 Outputs в ноутбуках очищены, чтобы репозиторий было удобно читать. Основные выводы сохранены в [`docs/experiment_summary.md`](docs/experiment_summary.md).
-
