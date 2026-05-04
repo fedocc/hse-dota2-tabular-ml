@@ -1,0 +1,9 @@
+data_dir: data/raw/dota-2-hse-ml-1-course-competition-2026
+submission_path: results/submissions/submission_base_all_features.csv
+
+model:
+  solver: lbfgs
+  C: 0.5868738470888988
+  max_iter: 1500
+  random_state: 42
+

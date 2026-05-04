@@ -1,0 +1,9 @@
+{
+  "best_cv_gini": 0.4088605023748033,
+  "best_params": {
+    "solver": "lbfgs",
+    "C": 0.5868738470888988,
+    "max_iter": 1500,
+    "random_state": 42
+  }
+}

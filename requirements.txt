@@ -1,0 +1,8 @@
+category-encoders
+numpy
+pandas
+pyyaml
+scikit-learn
+scipy
+jupyter
+
